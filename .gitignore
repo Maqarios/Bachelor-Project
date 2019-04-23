@@ -1,0 +1,7 @@
+dataset/*
+Machine Learning Model/.ipynb_checkpoints
+CyKit/*
+Grapgical User Interface/signal*
+Grapgical User Interface/stimulus_code*
+Grapgical User Interface/Selective*
+Grapgical User Interface/__*

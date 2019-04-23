@@ -3,6 +3,7 @@ import tkinter
 import random
 import socket
 from preprocessor import P300_Preprocessor
+import matplotlib
 
 CHARACTER_MATRIX = numpy.array([['A', 'B', 'C', 'D', 'E', 'F'],
                                 ['G', 'H', 'I', 'J', 'K', 'L'],
@@ -261,9 +262,9 @@ class P300_Controller(object):
         signal_session = numpy.empty((0))
         stimulus_code_session = numpy.empty((0))
         
-        for char in target_char:
+        for index in numpy.arange(len(target_char)):
             
-            row, column = self.search(char)
+            row, column = self.search(target_char[index])
             self.gui.label_matrix[row, column].config(fg = 'white')
             
             # Record
@@ -276,16 +277,17 @@ class P300_Controller(object):
                     signal_epoch,
                     stimulus_code_epoch
                 )
-        
-        # Plot
-        if(plot):
+            
+            # Plot
+            if(plot):
+                matplotlib.pyplot.figure(index)
                 P300_Preprocessor(
                         signal_epoch.reshape(1, -1, self.channels),
                         stimulus_code_epoch.reshape(1, -1),
-                        target_char,
+                        target_char[index],
                         self.gui.character_matrix,
-                        common_average_reference=1,
-                        moving_average=3,
+                        common_average_reference=0,
+                        moving_average=0,
                         digitization_samples=128,
                         end_window=100
                     ).plot()
@@ -337,18 +339,29 @@ class P300_Controller(object):
         # Start GUI Session
         self.gui.start_session()
         
+        message = ''
         while 1:
             
             # Update GUI
             self.gui.update()
             
-            data = self.socket.receive()
+            # Add Message To Previous Message
+            message += self.socket.receive().decode('utf-8')
             
-            data = data.decode('utf-8')
-            data = numpy.fromstring(data, dtype = numpy.float, sep=',')[2 : 2 + self.channels]
-            if(data.shape[0] == self.channels):
+            # Split Message & Read First Part
+            temp_message = message.split('\r\n')
+            data = numpy.fromstring(temp_message[0], dtype = numpy.float, sep=',')[2 : 2 + self.channels]
+            
+            if data.shape[0] == self.channels:
+                
+                # Save Data
                 signal = numpy.append(signal, data.reshape(1, self.channels), axis = 0)
                 stimulus_code = numpy.append(stimulus_code, self.gui.stimulus_code + 1)
+                
+                if len(temp_message) == 1:
+                    message = ''
+                else:
+                    message = temp_message[1]
             
             if self.gui.is_session == False:
                 break
@@ -368,10 +381,10 @@ class P300_Controller(object):
 #from emotivsocket import EmotivSocketSender
 #_thread.start_new_thread(EmotivSocketSender, ())
 
-cntrlr = P300_Controller(CHARACTER_MATRIX, font = 'Courier 70', repetitions=3)
+cntrlr = P300_Controller(CHARACTER_MATRIX, font = 'Courier 70', repetitions=5)
 
-target_char = 'ABCDEF'
-target_char = ''.join(random.sample(target_char,len(target_char)))
+target_char = 'A'
+target_char = ''.join(random.sample(target_char, len(target_char)))
 
 signal, stimulus_code = cntrlr.train_session(target_char, plot = True)
 for index in range(len(target_char)):

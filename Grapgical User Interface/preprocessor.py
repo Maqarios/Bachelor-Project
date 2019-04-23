@@ -194,7 +194,6 @@ class P300_Preprocessor(object):
                 start_window = start_window,
                 end_window = end_window
             )
-        print(self.preprocessed_signals.shape)
         
         sum_signals_success = numpy.zeros((self.window, self.signals.shape[2]))
         sum_signals_fail = numpy.zeros((self.window, self.signals.shape[2]))
