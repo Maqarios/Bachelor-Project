@@ -1,6 +1,6 @@
 import numpy
 import math
-import scipy
+import matplotlib
 
 class P300_Preprocessor(object):
     
@@ -32,7 +32,8 @@ class P300_Preprocessor(object):
         self.intensifications = self.matrix.shape[0] + self.matrix.shape[1]
         self.digitization_difference = math.floor(self.digitization_samples / 10)
         
-        self.preprocessed_signals = signals
+        self.preprocessed_signals = self.signals
+        self.preprocessed_classes = numpy.empty((self.signals.shape[0], self.intensifications))
         
         self.calculate_average()
         if common_average_reference: self.calulate_common_average_reference()
@@ -40,8 +41,6 @@ class P300_Preprocessor(object):
         if z_score: self.calculate_z_score()
         if decimation: self.calculate_decimation(decimation)
         if extracted_channels.shape[0]: self.calculate_concatenation(extracted_channels)
-        
-        self.calculate_classes()
     
     def reinit(
             self,
@@ -71,8 +70,8 @@ class P300_Preprocessor(object):
         self.intensifications = self.matrix.shape[0] + self.matrix.shape[1]
         self.digitization_difference = math.floor(self.digitization_samples / 10)
         
-        self.preprocessed_signals = signals
-        self.preprocessed_classes = None
+        self.preprocessed_signals = self.signals
+        self.preprocessed_classes = numpy.empty((self.signals.shape[0], self.intensifications))
         
         self.calculate_average()
         if common_average_reference: self.calulate_common_average_reference()
@@ -80,14 +79,13 @@ class P300_Preprocessor(object):
         if z_score: self.calculate_z_score()
         if decimation: self.calculate_decimation(decimation)
         if extracted_channels.shape[0]: self.calculate_concatenation(extracted_channels)
-        
-        self.calculate_classes()
     
     # Calculation of Intensification Average
     def calculate_average(self):
         
         preprocessed_signals = numpy.zeros((self.preprocessed_signals.shape[0], self.intensifications, self.window, self.preprocessed_signals.shape[2]))
         
+        # Looping Through Characters
         for epoch in range(self.preprocessed_signals.shape[0]):
             
             intensification_counter = numpy.zeros((self.intensifications))
@@ -104,6 +102,7 @@ class P300_Preprocessor(object):
     # Calculation of Common Average Reference
     def calulate_common_average_reference(self):
         
+        # Looping Through Characters
         for epoch in range(self.preprocessed_signals.shape[0]):
             
             mean_sample = numpy.mean(self.preprocessed_signals[epoch, :, :, :], axis=2)
@@ -114,6 +113,7 @@ class P300_Preprocessor(object):
     # Calculation of Moving Average
     def calculate_moving_average(self, moving_average):
         
+        # Looping Through Characters
         for epoch in range(self.preprocessed_signals.shape[0]):
             
             for intensification in range(self.preprocessed_signals.shape[1]):
@@ -142,6 +142,7 @@ class P300_Preprocessor(object):
         
         preprocessed_signals = numpy.zeros((self.preprocessed_signals.shape[0], self.intensifications, math.floor(self.window / decimation), self.preprocessed_signals.shape[3]))
         
+        # Looping Through Characters
         for epoch in range(self.preprocessed_signals.shape[0]):
             
             for intensification in range(self.preprocessed_signals.shape[1]):
@@ -156,6 +157,7 @@ class P300_Preprocessor(object):
         
         preprocessed_signals = numpy.zeros((self.preprocessed_signals.shape[0], self.preprocessed_signals.shape[1], self.preprocessed_signals.shape[2] * extracted_channels.shape[0]))
         
+        # Looping Through Characters
         for epoch in range(self.preprocessed_signals.shape[0]):
         
             for intensification in range(self.preprocessed_signals.shape[1]):
@@ -167,20 +169,67 @@ class P300_Preprocessor(object):
         self.preprocessed_signals = preprocessed_signals
     
     
+    # Plotter
+    def plot(
+            self,
+            common_average_reference = 0,
+            moving_average = 0,
+            z_score = 0,
+            decimation = 0,
+            plotted_channels = numpy.array([0])
+        ):
+        
+        preprocessed_signals = self.preprocessed_signals
+        self.reinit(
+                common_average_reference = common_average_reference,
+                moving_average = moving_average,
+                z_score = z_score,
+                decimation = decimation
+            )
+        
+        sum_signals_success = numpy.zeros((self.window, self.signals.shape[2]))
+        sum_signals_fail = numpy.zeros((self.window, self.signals.shape[2]))
+        
+        # Looping Through Characters
+        for epoch in range(self.preprocessed_signals.shape[0]):
+            
+            # Getting Index Of Chosen Character
+            chosen_row, chosen_column = self.search(self.target_char[epoch])
+            
+            for row_column in range(self.intensifications):
+                if row_column == chosen_row or row_column == chosen_column:
+                    sum_signals_success += self.preprocessed_signals[epoch, row_column]
+                else:
+                    sum_signals_fail += self.preprocessed_signals[epoch, row_column]
+    
+        average_signals_success = sum_signals_success / (self.preprocessed_signals.shape[0] * 2)
+        average_signals_fail = sum_signals_fail / (self.preprocessed_signals.shape[0] * (self.intensifications - 2))
+        
+        matplotlib.pyplot.plot(average_signals_success[:, plotted_channels])
+        matplotlib.pyplot.plot(average_signals_fail[:, plotted_channels])
+        
+        self.preprocessed_signals = preprocessed_signals
+    
     # Class (y) Constructor
     def calculate_classes(self):
         
-        self.preprocessed_classes = numpy.zeros((len(self.target_char), self.intensifications))
-        
+        # Looping Through Characters
         for epoch in range(len(self.target_char)):
             
             # Getting Index Of Chosen Character
-            indices = numpy.where(self.matrix == self.target_char[epoch])
-            chosen_column = indices[1][0]
-            chosen_row = indices[0][0] + self.matrix.shape[1]
+            chosen_row, chosen_column = self.search(self.target_char[epoch])
             
             for row_column in range(self.intensifications):
                 if row_column == chosen_row or row_column == chosen_column:
                     self.preprocessed_classes[epoch, row_column] = 1
                 else:
                     self.preprocessed_classes[epoch, row_column] = -1
+    
+    # Search Function(self):
+    def search(self, char):
+        
+        indices = numpy.where(self.matrix == char)
+        row = indices[0][0] + self.matrix.shape[1]
+        column = indices[1][0]
+        
+        return row, column
