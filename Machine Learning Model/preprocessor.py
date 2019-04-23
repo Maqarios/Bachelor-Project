@@ -1,5 +1,6 @@
 import numpy
 import math
+import scipy
 
 class P300_Preprocessor(object):
     
@@ -7,6 +8,7 @@ class P300_Preprocessor(object):
             self,
             signals,
             stimulus_code,
+            target_char,
             matrix,
             common_average_reference = 0,
             moving_average = 0,
@@ -20,6 +22,7 @@ class P300_Preprocessor(object):
         
         self.signals = signals
         self.stimulus_code = stimulus_code
+        self.target_char = target_char
         self.matrix = matrix
         self.digitization_samples = digitization_samples
         self.start_window = start_window
@@ -37,11 +40,14 @@ class P300_Preprocessor(object):
         if z_score: self.calculate_z_score()
         if decimation: self.calculate_decimation(decimation)
         if extracted_channels.shape[0]: self.calculate_concatenation(extracted_channels)
+        
+        self.calculate_classes()
     
     def reinit(
             self,
             signals = None,
             stimulus_code = None,
+            target_char = None,
             matrix = None,
             common_average_reference = 0,
             moving_average = 0,
@@ -55,6 +61,7 @@ class P300_Preprocessor(object):
         
         if signals: self.signals = signals
         if stimulus_code: self.stimulus_code = stimulus_code
+        if target_char: self.target_char = target_char
         if matrix: self.matrix = matrix
         if digitization_samples: self.digitization_samples = digitization_samples
         if start_window: self.start_window = start_window
@@ -65,6 +72,7 @@ class P300_Preprocessor(object):
         self.digitization_difference = math.floor(self.digitization_samples / 10)
         
         self.preprocessed_signals = signals
+        self.preprocessed_classes = None
         
         self.calculate_average()
         if common_average_reference: self.calulate_common_average_reference()
@@ -72,6 +80,8 @@ class P300_Preprocessor(object):
         if z_score: self.calculate_z_score()
         if decimation: self.calculate_decimation(decimation)
         if extracted_channels.shape[0]: self.calculate_concatenation(extracted_channels)
+        
+        self.calculate_classes()
     
     # Calculation of Intensification Average
     def calculate_average(self):
@@ -155,3 +165,22 @@ class P300_Preprocessor(object):
                             self.preprocessed_signals[epoch, intensification, :, extracted_channels[channel_index]]
     
         self.preprocessed_signals = preprocessed_signals
+    
+    
+    # Class (y) Constructor
+    def calculate_classes(self):
+        
+        self.preprocessed_classes = numpy.zeros((len(self.target_char), self.intensifications))
+        
+        for epoch in range(len(self.target_char)):
+            
+            # Getting Index Of Chosen Character
+            indices = numpy.where(self.matrix == self.target_char[epoch])
+            chosen_column = indices[1][0]
+            chosen_row = indices[0][0] + self.matrix.shape[1]
+            
+            for row_column in range(self.intensifications):
+                if row_column == chosen_row or row_column == chosen_column:
+                    self.preprocessed_classes[epoch, row_column] = 1
+                else:
+                    self.preprocessed_classes[epoch, row_column] = -1
