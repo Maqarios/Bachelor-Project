@@ -176,6 +176,10 @@ class P300_Preprocessor(object):
             moving_average = 0,
             z_score = 0,
             decimation = 0,
+            extracted_channels = numpy.empty((0)),
+            digitization_samples = 0,
+            start_window = 0,
+            end_window = 0,
             plotted_channels = numpy.array([0])
         ):
         
@@ -184,8 +188,13 @@ class P300_Preprocessor(object):
                 common_average_reference = common_average_reference,
                 moving_average = moving_average,
                 z_score = z_score,
-                decimation = decimation
+                decimation = decimation,
+                extracted_channels = extracted_channels,
+                digitization_samples = digitization_samples,
+                start_window = start_window,
+                end_window = end_window
             )
+        print(self.preprocessed_signals.shape)
         
         sum_signals_success = numpy.zeros((self.window, self.signals.shape[2]))
         sum_signals_fail = numpy.zeros((self.window, self.signals.shape[2]))
@@ -225,7 +234,7 @@ class P300_Preprocessor(object):
                 else:
                     self.preprocessed_classes[epoch, row_column] = -1
     
-    # Search Function(self):
+    # Search Function
     def search(self, char):
         
         indices = numpy.where(self.matrix == char)

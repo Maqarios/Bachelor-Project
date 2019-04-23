@@ -2,8 +2,7 @@ import numpy
 import tkinter
 import random
 import socket
-import _thread
-import EmotivSocket
+from preprocessor import P300_Preprocessor
 
 CHARACTER_MATRIX = numpy.array([['A', 'B', 'C', 'D', 'E', 'F'],
                                 ['G', 'H', 'I', 'J', 'K', 'L'],
@@ -84,14 +83,8 @@ class P300_GUI(object):
         self.is_session = True
         
         # Intensification Order Initialization
-        columns = numpy.arange(self.label_matrix.shape[1])
-        numpy.random.shuffle(columns)
-        
-        rows = numpy.arange(self.label_matrix.shape[0]) + self.label_matrix.shape[1]
-        numpy.random.shuffle(rows)
-        
-        self.intensification_order = numpy.append(columns, rows)
-        print(self.intensification_order)
+        self.intensification_order = numpy.arange(self.character_matrix.shape[0] + self.character_matrix.shape[1])
+        numpy.random.shuffle(self.intensification_order)
         
         # Chosen Intensification Initialization
         self.intensification_order_index = 0
@@ -102,18 +95,9 @@ class P300_GUI(object):
     
     def repeat_session(self):
         
-        # Decrease Repetitions
-        self.controller.temp_repetitions -= 1
-        
         # Intensification Order Initialization
-        columns = numpy.arange(self.label_matrix.shape[1])
-        numpy.random.shuffle(columns)
-        
-        rows = numpy.arange(self.label_matrix.shape[0]) + self.label_matrix.shape[1]
-        numpy.random.shuffle(rows)
-        
-        self.intensification_order = numpy.append(columns, rows)
-        print(self.intensification_order)
+        self.intensification_order = numpy.arange(self.character_matrix.shape[0] + self.character_matrix.shape[1])
+        numpy.random.shuffle(self.intensification_order)
         
         # Chosen Intensification Initialization
         self.intensification_order_index = 0
@@ -128,6 +112,8 @@ class P300_GUI(object):
         
     # State Where Row / Column Is Intensified For 100ms
     def state_0(self):
+        
+        self.reset_colors()
         
         # Get Chosen Row / Column
         self.stimulus_code = self.intensification_order[self.intensification_order_index]
@@ -154,6 +140,7 @@ class P300_GUI(object):
         if self.intensification_order_index < self.intensification_order.shape[0]:
             self.root.after(self.state_1_delay, self.state_0)
         elif self.controller.temp_repetitions != 0:
+            self.controller.temp_repetitions -= 1
             self.root.after(self.state_1_delay, self.repeat_session)
         else:
             self.root.after(self.end_delay, self.end_session)
@@ -270,11 +257,14 @@ class P300_Controller(object):
         while 1:
             self.gui.update()
     
-    def train_session(self, target_char):
+    def train_session(self, target_char, plot = False):
         signal_session = numpy.empty((0))
         stimulus_code_session = numpy.empty((0))
         
-        for _ in target_char:
+        for char in target_char:
+            
+            row, column = self.search(char)
+            self.gui.label_matrix[row, column].config(fg = 'white')
             
             # Record
             signal_epoch, stimulus_code_epoch = self.record()
@@ -286,6 +276,19 @@ class P300_Controller(object):
                     signal_epoch,
                     stimulus_code_epoch
                 )
+        
+        # Plot
+        if(plot):
+                P300_Preprocessor(
+                        signal_epoch.reshape(1, -1, self.channels),
+                        stimulus_code_epoch.reshape(1, -1),
+                        target_char,
+                        self.gui.character_matrix,
+                        common_average_reference=1,
+                        moving_average=3,
+                        digitization_samples=128,
+                        end_window=100
+                    ).plot()
         
         return signal_session, stimulus_code_session
     
@@ -324,7 +327,7 @@ class P300_Controller(object):
     def record(self):
          
         # Clear Buffer
-        self.socket.flush()
+        #self.socket.flush()
         
         # Variable Initialization
         signal = numpy.empty((0, self.channels))
@@ -351,13 +354,26 @@ class P300_Controller(object):
                 break
         
         return signal, stimulus_code
+    
+    # Search Function
+    def search(self, char):
+        
+        indices = numpy.where(self.gui.character_matrix == char)
+        row = indices[0][0]
+        column = indices[1][0]
+        
+        return row, column
 # -------------------------------------------- ########## -------------------------------------------- #
-_thread.start_new_thread(EmotivSocket.EmotivSocketSender, ())
+#import _thread
+#from emotivsocket import EmotivSocketSender
+#_thread.start_new_thread(EmotivSocketSender, ())
 
-cntrlr = P300_Controller(CHARACTER_MATRIX, font = 'Courier 70')
+cntrlr = P300_Controller(CHARACTER_MATRIX, font = 'Courier 70', repetitions=3)
 
 target_char = 'ABCDEF'
-signal, stimulus_code = cntrlr.train_session(target_char)
+target_char = ''.join(random.sample(target_char,len(target_char)))
+
+signal, stimulus_code = cntrlr.train_session(target_char, plot = True)
 for index in range(len(target_char)):
     numpy.savetxt('signal_' + target_char[index] + '.txt', signal[index])
     numpy.savetxt('stimulus_code_' + target_char[index] + '.txt', stimulus_code[index])
