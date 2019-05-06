@@ -180,7 +180,8 @@ class P300_Preprocessor(object):
             digitization_samples = 0,
             start_window = 0,
             end_window = 0,
-            plotted_channels = numpy.array([0])
+            plotted_channels = numpy.array([0]),
+            average_channels = False
         ):
         
         preprocessed_signals = self.preprocessed_signals
@@ -213,8 +214,13 @@ class P300_Preprocessor(object):
         average_signals_success = sum_signals_success / (self.preprocessed_signals.shape[0] * 2)
         average_signals_fail = sum_signals_fail / (self.preprocessed_signals.shape[0] * (self.intensifications - 2))
         
-        matplotlib.pyplot.plot(average_signals_success[:, plotted_channels])
-        matplotlib.pyplot.plot(average_signals_fail[:, plotted_channels])
+        
+        if average_channels:
+            matplotlib.pyplot.plot(numpy.mean(average_signals_success, axis = 1))
+            matplotlib.pyplot.plot(numpy.mean(average_signals_fail, axis = 1))
+        else:
+            matplotlib.pyplot.plot(average_signals_success[:, plotted_channels])
+            matplotlib.pyplot.plot(average_signals_fail[:, plotted_channels])
         
         self.preprocessed_signals = preprocessed_signals
     
