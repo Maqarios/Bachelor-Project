@@ -11,8 +11,8 @@ class P300_SocketReceiver(object):
         self.PORT = PORT
         self.BUFFER_SIZE = BUFFER_SIZE
         
-        self.signal = None
-        self.stimulus_code = None
+        self.signal = numpy.empty((0, self.controller.channels))
+        self.stimulus_code = numpy.empty((0))
         self.is_record = False
         
         # Socket Establishment
@@ -26,7 +26,7 @@ class P300_SocketReceiver(object):
         self.socket.send(b'\r\n')
         
         # Start Receiving In Parallel Thread
-        _thread.start_new_thread(self.receive)
+        _thread.start_new_thread(self.receive, ())
     
     def disconnect(self):
         self.socket.close()
@@ -49,19 +49,11 @@ class P300_SocketReceiver(object):
         while 1:
             
             # Add Message To Previous Message
-            message += self.socket.receive().decode('utf-8')
+            message = self.socket.recv(self.BUFFER_SIZE).decode('utf-8')
+            message = numpy.fromstring(message, dtype = numpy.float, sep=',')[2 : 2 + self.controller.channels]
             
-            # Split Message & Read First Part
-            temp_message = message.split('\r\n')
-            data = numpy.fromstring(temp_message[0], dtype = numpy.float, sep=',')[2 : 2 + self.channels]
-            
-            if data.shape[0] == self.controller.channels:
+            if message.shape[0] == self.controller.channels:
                 
                 if self.is_record:
-                    self.signal = numpy.append(self.signal, data.reshape(1, self.controller.channels), axis = 0)
+                    self.signal = numpy.append(self.signal, message.reshape(1, self.controller.channels), axis = 0)
                     self.stimulus_code = numpy.append(self.stimulus_code, self.controller.gui.stimulus_code + 1)
-                
-                if len(temp_message) == 1:
-                    message = ''
-                else:
-                    message = temp_message[1]
