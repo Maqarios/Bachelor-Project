@@ -4,7 +4,7 @@ import _thread
 
 class P300_SocketReceiver(object):
     
-    def __init__(self, controller, HOST, PORT, BUFFER_SIZE = 1024):
+    def __init__(self, controller, HOST = '127.0.0.1', PORT = 54123, BUFFER_SIZE = 1024):
         
         self.controller = controller
         self.HOST = HOST
