@@ -49,7 +49,10 @@ class P300_SocketReceiver(object):
         while 1:
             
             # Add Message To Previous Message
-            message = self.socket.recv(self.BUFFER_SIZE).decode('utf-8')
+            try:
+                message = self.socket.recv(self.BUFFER_SIZE).decode('utf-8')
+            except:
+                break
             message = numpy.fromstring(message, dtype = numpy.float, sep=',')[2 : 2 + self.controller.channels]
             
             if message.shape[0] == self.controller.channels:

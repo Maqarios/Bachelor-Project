@@ -64,3 +64,4 @@ class EmotivMessageSimulator(object):
                 self.message_counter = 0
             
             sleep(self.DELAY)
+EmotivMessageSimulator()
