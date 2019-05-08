@@ -27,7 +27,7 @@ class P300_Controller(object):
         self.repetitions = repetitions
         self.channels = channels
         
-        self.gui = P300_GUI(self, character_matrix)
+        self.gui = P300_GUI(self, character_matrix, state_0_delay=150, state_1_delay=100)
         self.socket = P300_SocketReceiver(self)
         
         self.temp_repetitions = 0
@@ -63,7 +63,7 @@ class P300_Controller(object):
                         common_average_reference=0,
                         moving_average=0,
                         digitization_samples=128,
-                        end_window=100
+                        end_window=128
                     ).plot()
         
         return signal_session, stimulus_code_session
@@ -129,9 +129,11 @@ class P300_Controller(object):
         return row, column
 
 x = P300_Controller(CHARACTER_MATRIX, repetitions=5)
-signal, stimulus_code = x.train_session('A')
-numpy.savetxt('signal_A', signal[0])
-numpy.savetxt('stimulus_code_A', stimulus_code[0])
+signal, stimulus_code = x.train_session('A', plot=True)
+numpy.savetxt('signal_A.txt', signal[0])
+numpy.savetxt('stimulus_code_A.txt', stimulus_code[0])
 
 x.gui.close()
 x.socket.disconnect()
+
+del x.socket
