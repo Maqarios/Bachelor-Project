@@ -1,6 +1,7 @@
 import numpy
 import math
 import matplotlib
+from scipy import signal
 
 class P300_Preprocessor(object):
     
@@ -136,6 +137,17 @@ class P300_Preprocessor(object):
             for sample in range(self.preprocessed_signals.shape[2]):
                 self.preprocessed_signals[epoch, :, sample, :] = (self.preprocessed_signals[epoch, :, sample, :] - mean_channel) / std_channel
     
+    def calculate_notch(self):
+        
+        f0 = 5.71 / 64
+        Q = 100
+        
+        b, a = signal.iirnotch(f0, Q)
+        
+        for epoch in range(self.preprocessed_signals.shape[0]):
+            for intensification in range(self.preprocessed_signals.shape[1]):
+                for channel in range(self.preprocessed_signals.shape[3]):
+                    self.preprocessed_signals[epoch, intensification, :, channel] = signal.lfilter(b, a, self.preprocessed_signals[epoch, intensification, :, channel])
     
     # Calculation of Decimation
     def calculate_decimation(self, decimation):
@@ -168,7 +180,6 @@ class P300_Preprocessor(object):
     
         self.preprocessed_signals = preprocessed_signals
     
-    
     # Plotter
     def plot(
             self,
@@ -195,8 +206,8 @@ class P300_Preprocessor(object):
                 end_window = end_window
             )
         
-        sum_signals_success = numpy.zeros((self.window, self.signals.shape[2]))
-        sum_signals_fail = numpy.zeros((self.window, self.signals.shape[2]))
+        sum_signals_success = numpy.zeros((self.preprocessed_signals.shape[2], self.preprocessed_signals.shape[3]))
+        sum_signals_fail = numpy.zeros((self.preprocessed_signals.shape[2], self.preprocessed_signals.shape[3]))
         
         # Looping Through Characters
         for epoch in range(self.preprocessed_signals.shape[0]):
