@@ -1,10 +1,6 @@
 import numpy
-import tkinter
-import random
-import socket
-import math
 from P300_Preprocessor import P300_Preprocessor
-import matplotlib
+import matplotlib.pyplot as plt
 
 CHARACTER_MATRIX = numpy.array([['A', 'B', 'C', 'D', 'E', 'F'],
                                 ['G', 'H', 'I', 'J', 'K', 'L'],
@@ -18,25 +14,20 @@ CHARACTER_MATRIX = numpy.array([['A', 'B', 'C', 'D', 'E', 'F'],
 
 # -------------------------------------------- CONTROLLER -------------------------------------------- #
 # -------------------------------------------- ########## -------------------------------------------- #
-#import _thread
-#from emotivsocket import EmotivSocketSender
-#_thread.start_new_thread(EmotivSocketSender, ())
 
-#cntrlr = P300_Controller(CHARACTER_MATRIX, font = 'Courier 70', repetitions=3, state_0_delay=0.11, state_1_delay=0.076)
+char = 'A'
+signal = numpy.loadtxt('signal_' + char + '.txt')
+stimulus_code = numpy.loadtxt('stimulus_code_' + char + '.txt')
 
-#target_char = 'AJSWO185'
-#target_char = ''.join(random.sample(target_char, len(target_char)))
-
-#signal, stimulus_code = cntrlr.train_session(target_char, plot=True)
-#for index in range(len(target_char)):
-#    numpy.savetxt('signal_' + target_char[index] + '.txt', signal[index])
-#    numpy.savetxt('stimulus_code_' + target_char[index] + '.txt', stimulus_code[index])
-
-#cntrlr.gui.close()
-#cntrlr.socket.disconnect()
-
-signal_A = numpy.loadtxt('signal_A.txt')
-stimulus_code_A = numpy.loadtxt('stimulus_code_A.txt')
-pl_ch = numpy.arange(14)
-
-P300_Preprocessor(signal_A.reshape(1, -1, 14), stimulus_code_A.reshape(1, -1), 'A', CHARACTER_MATRIX).plot(plotted_channels=pl_ch)
+x = P300_Preprocessor(
+        signal.reshape(1, -1, 14),
+        stimulus_code.reshape(1, -1),
+        char,
+        CHARACTER_MATRIX,
+        common_average_reference=0,
+        end_window=128,
+        digitization_samples=128
+    )
+plt.plot(x.preprocessed_signals[0, 0, :, 0])
+plt.plot(x.preprocessed_signals[0, 3, :, 0])
+plt.legend(['P300', 'Non-P300'])

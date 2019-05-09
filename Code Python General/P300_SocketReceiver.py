@@ -49,14 +49,19 @@ class P300_SocketReceiver(object):
         while 1:
             
             # Add Message To Previous Message
-            try:
-                message = self.socket.recv(self.BUFFER_SIZE).decode('utf-8')
-            except:
-                break
-            message = numpy.fromstring(message, dtype = numpy.float, sep=',')[2 : 2 + self.controller.channels]
+            message += self.socket.recv(self.BUFFER_SIZE).decode('utf-8')
             
-            if message.shape[0] == self.controller.channels:
+            # Split Message & Read First Part
+            temp_message = message.split('\r\n')
+            data = numpy.fromstring(temp_message[0], dtype = numpy.float, sep=',')[2 : -2]
+            
+            if data.shape[0] == self.controller.channels:
                 
                 if self.is_record:
-                    self.signal = numpy.append(self.signal, message.reshape(1, self.controller.channels), axis = 0)
+                    self.signal = numpy.append(self.signal, data.reshape(1, self.controller.channels), axis = 0)
                     self.stimulus_code = numpy.append(self.stimulus_code, self.controller.gui.stimulus_code + 1)
+                
+                if len(temp_message) == 1:
+                    message = ''
+                else:
+                    message = temp_message[1]

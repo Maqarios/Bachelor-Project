@@ -226,6 +226,7 @@ class P300_Preprocessor(object):
         
         matplotlib.pyplot.plot(average_signals_success[:, plotted_channels])
         matplotlib.pyplot.plot(average_signals_fail[:, plotted_channels])
+        matplotlib.pyplot.legend(['P300', 'Non-P300'])
         
         self.preprocessed_signals = preprocessed_signals
     
