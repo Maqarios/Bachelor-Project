@@ -1,5 +1,6 @@
 import numpy
 import matplotlib
+import random
 
 from P300_GUI import P300_GUI
 from P300_Preprocessor import P300_Preprocessor
@@ -27,14 +28,20 @@ class P300_Controller(object):
         self.repetitions = repetitions
         self.channels = channels
         
-        self.gui = P300_GUI(self, character_matrix, state_0_delay=340, state_1_delay=260)
+        self.gui = P300_GUI(self, character_matrix, state_0_delay=100, state_1_delay=75)
         self.socket = P300_SocketReceiver(self)
         
         self.temp_repetitions = 0
     
-    def train_session(self, target_char, plot = False):
-        signal_session = numpy.empty((0))
-        stimulus_code_session = numpy.empty((0))
+    def train_session(
+            self,
+            target_char,
+            signal_pretext = 'signal_',
+            stimulus_code_pretext = 'stimulus_code_',
+            plot = False
+        ):
+        
+        target_char = ''.join(random.sample(target_char, len(target_char)))
         
         for index in numpy.arange(len(target_char)):
             
@@ -44,22 +51,22 @@ class P300_Controller(object):
             print('Train Char:', target_char[index])
             
             # Record
-            signal_epoch, stimulus_code_epoch = self.record()
+            signal, stimulus_code = self.record()
             
-            # Append
-            signal_session, stimulus_code_session = self.append_epoch_into_session(
-                    signal_session,
-                    stimulus_code_session,
-                    signal_epoch,
-                    stimulus_code_epoch
-                )
+            if signal.shape[0] == 0 or stimulus_code.shape[0] == 0:
+                print('Warning: Signal Is Not Received!')
+                break
+            
+            # Save
+            numpy.savetxt(signal_pretext + target_char[index] + '.txt', signal)
+            numpy.savetxt(stimulus_code_pretext + target_char[index] + '.txt', stimulus_code)
             
             # Plot
             if(plot):
                 matplotlib.pyplot.figure(index)
                 P300_Preprocessor(
-                        signal_epoch.reshape(1, -1, self.channels),
-                        stimulus_code_epoch.reshape(1, -1),
+                        signal.reshape(1, -1, self.channels),
+                        stimulus_code.reshape(1, -1),
                         target_char[index],
                         self.gui.character_matrix,
                         common_average_reference=0,
@@ -67,40 +74,6 @@ class P300_Controller(object):
                         digitization_samples=128,
                         end_window=128
                     ).plot()
-        
-        return signal_session, stimulus_code_session
-    
-    def append_epoch_into_session(
-            self,
-            signal_session,
-            stimulus_code_session,
-            signal_epoch,
-            stimulus_code_epoch
-        ):
-        
-        if (signal_session.shape[0] == 0) and (stimulus_code_session.shape[0] == 0):
-            signal_session = numpy.reshape(signal_epoch, (1, -1, self.channels))
-            stimulus_code_session = numpy.reshape(stimulus_code_epoch, (1, -1))
-        
-        else:
-            # Determine Minimum
-            final_index = min(signal_session.shape[1], signal_epoch.shape[0])
-            
-            # Clip
-            signal_session = signal_session[:, : final_index, :]
-            stimulus_code_session = stimulus_code_session[:, : final_index]
-            signal_epoch = signal_epoch[ : final_index, :]
-            stimulus_code_epoch = stimulus_code_epoch[ : final_index]
-            
-            # Reshape
-            signal_epoch = numpy.reshape(signal_epoch, (1, -1, self.channels))
-            stimulus_code_epoch = numpy.reshape(stimulus_code_epoch, (1, -1))
-            
-            # Append
-            signal_session = numpy.append(signal_session, signal_epoch, axis = 0)
-            stimulus_code_session = numpy.append(stimulus_code_session, stimulus_code_epoch, axis = 0)
-        
-        return signal_session, stimulus_code_session
     
     def record(self):
         
@@ -130,16 +103,19 @@ class P300_Controller(object):
         
         return row, column
 
-import random
-x = P300_Controller(CHARACTER_MATRIX, repetitions=1)
 
-target_char = 'A'
-target_char = ''.join(random.sample(target_char, len(target_char)))
+signal_pretext = 'owsa/trial 2/signal_'
+stimulus_code_pretext = 'owsa/trial 2/stimulus_code_'
+target_char = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789_'
 
-signal, stimulus_code = x.train_session(target_char, plot=True)
-for index in range(len(target_char)):
-    numpy.savetxt('signal_' + target_char[index] + '.txt', signal[index])
-    numpy.savetxt('stimulus_code_' + target_char[index] + '.txt', stimulus_code[index])
+x = P300_Controller(CHARACTER_MATRIX, repetitions=15)
+
+x.train_session(
+        target_char,
+        signal_pretext = signal_pretext,
+        stimulus_code_pretext = stimulus_code_pretext,
+        plot=True
+    )
 
 x.gui.close()
 x.socket.disconnect()
