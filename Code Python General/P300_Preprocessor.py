@@ -93,7 +93,10 @@ class P300_Preprocessor(object):
             for n in range(1, self.preprocessed_signals.shape[1]):
                 if self.stimulus_code[epoch, n] == 0 and self.stimulus_code[epoch, n - 1] != 0:
                     intensification_counter[int(self.stimulus_code[epoch, n - 1]) - 1] += 1
-                    preprocessed_signals[epoch, int(self.stimulus_code[epoch, n - 1]) - 1] += self.preprocessed_signals[epoch, n + self.start_window - self.digitization_difference : n + self.end_window - self.digitization_difference]
+                    try:
+                        preprocessed_signals[epoch, int(self.stimulus_code[epoch, n - 1]) - 1] += self.preprocessed_signals[epoch, n + self.start_window - self.digitization_difference : n + self.end_window - self.digitization_difference]
+                    except:
+                        intensification_counter[int(self.stimulus_code[epoch, n - 1]) - 1] -= 1
             for intensification in range(self.intensifications):
                 preprocessed_signals[epoch, intensification] /= intensification_counter[intensification]
         
@@ -139,10 +142,7 @@ class P300_Preprocessor(object):
     
     def calculate_notch(self):
         
-        f0 = 5.71 / 64
-        Q = 100
-        
-        b, a = signal.iirnotch(f0, Q)
+        b, a = signal.iirnotch(5.71, 5.71 / 128, 128)
         
         for epoch in range(self.preprocessed_signals.shape[0]):
             for intensification in range(self.preprocessed_signals.shape[1]):
@@ -205,6 +205,8 @@ class P300_Preprocessor(object):
                 start_window = start_window,
                 end_window = end_window
             )
+        
+        #self.calculate_notch()
         
         sum_signals_success = numpy.zeros((self.preprocessed_signals.shape[2], self.preprocessed_signals.shape[3]))
         sum_signals_fail = numpy.zeros((self.preprocessed_signals.shape[2], self.preprocessed_signals.shape[3]))
