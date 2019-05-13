@@ -21,7 +21,7 @@ class P300_Model(object):
         
         return matrix[row, column]
     
-    def calculate_accuracy(self, signal, matrix, target_char):
+    def calculate_accuracy(self, signal, target_char, matrix):
         
         accuracy = 0
         
@@ -30,6 +30,6 @@ class P300_Model(object):
             if target_char[epoch] == self.predict_character(signal[epoch], matrix):
                 accuracy += 1
             
-            accuracy = (accuracy / len(target_char)) * 100
+        accuracy = (accuracy / len(target_char)) * 100
         
         return accuracy
