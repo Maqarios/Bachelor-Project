@@ -125,14 +125,9 @@ class P300_Preprocessor(object):
         for epoch in range(self.preprocessed_signal.shape[0]):
             
             for intensification in range(self.preprocessed_signal.shape[1]):
-                for sample in range(math.ceil(self.preprocessed_signal.shape[2] / moving_average)):
-                    if ((sample * moving_average) + moving_average) < self.preprocessed_signal.shape[2]:
-                        self.preprocessed_signal[epoch, intensification, (sample * moving_average) : ((sample * moving_average) + moving_average), :] = \
-                            numpy.mean(self.preprocessed_signal[epoch, intensification, (sample * moving_average) : ((sample * moving_average) + moving_average), :], axis=0)
-                    else:
-                        self.preprocessed_signal[epoch, intensification, (sample * moving_average) : , :] = \
-                            numpy.mean(self.preprocessed_signal[epoch, intensification, (sample * moving_average) : , :], axis=0)
-    
+                for sample in range(self.preprocessed_signal.shape[2] - moving_average):
+                        self.preprocessed_signal[epoch, intensification, sample, :] = \
+                            numpy.mean(self.preprocessed_signal[epoch, intensification, sample : sample + moving_average, :], axis=0)
     
     # Calculation of Z-Score
     def calculate_z_score(self):

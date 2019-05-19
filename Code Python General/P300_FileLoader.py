@@ -1,20 +1,17 @@
 import numpy
+import os.path
 
 class P300_FileLoader(object):
     
-    def __init__(self, signal_pretext, stimulus_code_pretext, characters_to_be_loaded):
+    def __init__(self, user_name):
         
-        self.signal_pretext = signal_pretext
-        self.stimulus_code_pretext = stimulus_code_pretext
-        self.characters_to_be_loaded = characters_to_be_loaded
+        self.user_name = user_name
         
         self.load_files()
     
-    def reinit(self, signal_pretext, stimulus_code_pretext, characters_to_be_loaded):
+    def reinit(self, user_name):
         
-        self.signal_pretext = signal_pretext
-        self.stimulus_code_pretext = stimulus_code_pretext
-        self.characters_to_be_loaded = characters_to_be_loaded
+        self.user_name = user_name
         
         self.load_files()
     
@@ -24,20 +21,27 @@ class P300_FileLoader(object):
         self.stimulus_code = numpy.empty((0))
         self.loaded_characters = ''
         
-        for char in self.characters_to_be_loaded:
+        characters_to_be_loaded = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789_'
+        
+        for trial in range(100):
             
-            try:
-                signal_epoch = numpy.loadtxt(self.signal_pretext + char + '.txt')
-                stimulus_code_epoch = numpy.loadtxt(self.stimulus_code_pretext + char + '.txt')
-            except:
-                print('Character:', char, 'Not Found!')
-                continue
+            path = 'user_data/' + self.user_name + '/' + str(trial)
             
-            self.loaded_characters += char
-            
-            self.append_epoch_into_session(signal_epoch, stimulus_code_epoch)
+            if os.path.exists(path):
+                
+                for char in characters_to_be_loaded:
+                    
+                    try:
+                        signal_epoch = numpy.loadtxt(path + '/signal_' + char + '.txt')
+                        stimulus_code_epoch = numpy.loadtxt(path + '/stimulus_code_' + char + '.txt')
+                    except:
+                        print('Character:', char, 'Not Found!')
+                        continue
+                
+                    self.loaded_characters += char
+                    self.append_epoch(signal_epoch, stimulus_code_epoch)
     
-    def append_epoch_into_session(
+    def append_epoch(
             self,
             signal_epoch,
             stimulus_code_epoch

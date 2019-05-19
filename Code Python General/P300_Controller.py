@@ -1,6 +1,7 @@
 import numpy
 import matplotlib
 import random
+import os
 
 from P300_GUI import P300_GUI
 from P300_Preprocessor import P300_Preprocessor
@@ -12,19 +13,21 @@ CHARACTER_MATRIX = numpy.array([['A', 'B', 'C', 'D', 'E', 'F'],
                                 ['S', 'T', 'U', 'V', 'W', 'X'],
                                 ['Y', 'Z', '1', '2', '3', '4'],
                                 ['5', '6', '7', '8', '9', '_']])
+matplotlib.rcParams.update({'figure.max_open_warning': 0})
 
 class P300_Controller(object):
     
     def __init__(
             self,
             
+            user_name,
             character_matrix,
             
             repetitions = 15,
             channels = 14
         ):
         
-        
+        self.user_name = user_name
         self.repetitions = repetitions
         self.channels = channels
         
@@ -35,20 +38,27 @@ class P300_Controller(object):
     
     def train_session(
             self,
-            target_char,
-            signal_pretext = 'signal_',
-            stimulus_code_pretext = 'stimulus_code_',
             plot = False
         ):
         
-        target_char = ''.join(random.sample(target_char, len(target_char)))
+        target_char = ''.join(random.sample('ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789_', 36))
+        
+        path = 'user_data/' + self.user_name
+        if not os.path.exists(path):
+            os.mkdir(path)
+        
+        for i in range(100):
+            path =  'user_data/' + self.user_name + '/' + str(i)
+            if not os.path.exists(path):
+                os.mkdir(path)
+                break
         
         for index in numpy.arange(len(target_char)):
             
             row, column = self.search(target_char[index])
             self.gui.label_matrix[row, column].config(fg = 'white')
             
-            print('Train Char:', target_char[index])
+            print('Train Char:', target_char[index] + ', Required:', len(target_char) - index - 1)
             
             # Record
             signal, stimulus_code = self.record()
@@ -58,8 +68,8 @@ class P300_Controller(object):
                 break
             
             # Save
-            numpy.savetxt(signal_pretext + target_char[index] + '.txt', signal)
-            numpy.savetxt(stimulus_code_pretext + target_char[index] + '.txt', stimulus_code)
+            numpy.savetxt(path + '/signal_' + target_char[index] + '.txt', signal)
+            numpy.savetxt(path + '/stimulus_code_' + target_char[index] + '.txt', stimulus_code)
             
             # Plot
             if(plot):
@@ -104,18 +114,10 @@ class P300_Controller(object):
         return row, column
 
 
-signal_pretext = 'owsa/trial 2/signal_'
-stimulus_code_pretext = 'owsa/trial 2/stimulus_code_'
-target_char = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789_'
+user_name = input('Enter User Name: ')
 
-x = P300_Controller(CHARACTER_MATRIX, repetitions=15)
+cntrlr = P300_Controller(user_name, CHARACTER_MATRIX, repetitions=15)
+cntrlr.train_session(plot=True)
 
-x.train_session(
-        target_char,
-        signal_pretext = signal_pretext,
-        stimulus_code_pretext = stimulus_code_pretext,
-        plot=True
-    )
-
-x.gui.close()
-x.socket.disconnect()
+cntrlr.gui.close()
+cntrlr.socket.disconnect()
