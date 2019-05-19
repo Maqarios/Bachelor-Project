@@ -1,0 +1,399 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7000 64-bit) (preloaded format=pdflatex 2019.5.19)  19 MAY 2019 13:41
+entering extended mode
+**./main.tex
+(main.tex
+LaTeX2e <2018-12-01>
+("C:\Users\OWSA\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\book.cls"
+Document Class: book 2018/09/03 v1.4i Standard LaTeX document class
+("C:\Users\OWSA\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\bk12.clo"
+File: bk12.clo 2018/09/03 v1.4i Standard LaTeX file (size option)
+)
+\c@part=\count80
+\c@chapter=\count81
+\c@section=\count82
+\c@subsection=\count83
+\c@subsubsection=\count84
+\c@paragraph=\count85
+\c@subparagraph=\count86
+\c@figure=\count87
+\c@table=\count88
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+("C:\Users\OWSA\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\inputenc.sty"
+Package: inputenc 2018/08/11 v1.3c Input encoding file
+\inpenc@prehook=\toks14
+\inpenc@posthook=\toks15
+)
+("C:\Users\OWSA\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\graphicx.s
+ty"
+Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
+
+("C:\Users\OWSA\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\keyval.sty
+"
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks16
+)
+("C:\Users\OWSA\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\graphics.s
+ty"
+Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
+
+("C:\Users\OWSA\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\trig.sty"
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+)
+("C:\Users\OWSA\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics-cfg\graphi
+cs.cfg"
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 99.
+
+("C:\Users\OWSA\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics-def\pdftex
+.def"
+File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen103
+\Gin@req@width=\dimen104
+) (main.aux
+
+LaTeX Warning: Label `fig:my_label' multiply defined.
+
+
+LaTeX Warning: Label `fig:my_label' multiply defined.
+
+
+LaTeX Warning: Label `fig:my_label' multiply defined.
+
+
+LaTeX Warning: Label `fig:my_label' multiply defined.
+
+
+LaTeX Warning: Label `fig:my_label' multiply defined.
+
+
+LaTeX Warning: Label `fig:my_label' multiply defined.
+
+
+LaTeX Warning: Label `fig:my_label' multiply defined.
+
+
+LaTeX Warning: Label `fig:my_label' multiply defined.
+
+
+LaTeX Warning: Label `fig:my_label' multiply defined.
+
+
+LaTeX Warning: Label `fig:my_label' multiply defined.
+
+
+LaTeX Warning: Label `fig:my_label' multiply defined.
+
+)
+\openout1 = `main.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+
+("C:\Users\OWSA\AppData\Local\Programs\MiKTeX 2.9\tex/context/base/mkii\supp-pd
+f.mkii"
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count89
+\scratchdimen=\dimen105
+\scratchbox=\box27
+\nofMPsegments=\count90
+\nofMParguments=\count91
+\everyMPshowfont=\toks17
+\MPscratchCnt=\count92
+\MPscratchDim=\dimen106
+\MPnumerator=\count93
+\makeMPintoPDFobject=\count94
+\everyMPtoPDFconversion=\toks18
+)
+("C:\Users\OWSA\AppData\Local\Programs\MiKTeX 2.9\tex/latex/oberdiek\epstopdf-b
+ase.sty"
+Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
+
+("C:\Users\OWSA\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\infwarer
+r.sty"
+Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
+)
+("C:\Users\OWSA\AppData\Local\Programs\MiKTeX 2.9\tex/latex/oberdiek\grfext.sty
+"
+Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
+
+("C:\Users\OWSA\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\kvdefine
+keys.sty"
+Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
+
+("C:\Users\OWSA\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\ltxcmds.
+sty"
+Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
+)))
+("C:\Users\OWSA\AppData\Local\Programs\MiKTeX 2.9\tex/latex/oberdiek\kvoptions.
+sty"
+Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
+
+("C:\Users\OWSA\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\kvsetkey
+s.sty"
+Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
+
+("C:\Users\OWSA\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\etexcmds
+.sty"
+Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
+
+("C:\Users\OWSA\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\ifluatex
+.sty"
+Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+))))
+("C:\Users\OWSA\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\pdftexcm
+ds.sty"
+Package: pdftexcmds 2018/09/10 v0.29 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+("C:\Users\OWSA\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\ifpdf.st
+y"
+Package: ifpdf 2018/09/07 v3.3 Provides the ifpdf switch
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+38.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 456.
+)
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <14.4> on input line 15.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 15.
+ [1
+
+
+{C:/Users/OWSA/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
+[2
+
+] (main.toc
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 6.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 6.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 6.
+)
+\tf@toc=\write3
+\openout3 = `main.toc'.
+
+ [3] [4
+
+]
+Chapter 1.
+(chapters/introduction.tex) [5] [6
+
+]
+Chapter 2.
+(chapters/background.tex
+<images/figure-2-1.jpg, id=24, 377.91188pt x 313.9228pt>
+File: images/figure-2-1.jpg Graphic file (type jpg)
+<use images/figure-2-1.jpg>
+Package pdftex.def Info: images/figure-2-1.jpg  used on input line 5.
+(pdftex.def)             Requested size: 199.16928pt x 165.44421pt.
+<images/figure-2-2.jpg, id=25, 517.935pt x 290.58563pt>
+File: images/figure-2-2.jpg Graphic file (type jpg)
+<use images/figure-2-2.jpg>
+Package pdftex.def Info: images/figure-2-2.jpg  used on input line 17.
+(pdftex.def)             Requested size: 199.16928pt x 111.74501pt.
+<images/figure-2-3.jpg, id=26, 517.935pt x 323.70938pt>
+File: images/figure-2-3.jpg Graphic file (type jpg)
+<use images/figure-2-3.jpg>
+Package pdftex.def Info: images/figure-2-3.jpg  used on input line 23.
+(pdftex.def)             Requested size: 199.16928pt x 124.48277pt.
+ [7]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [8 <./images/figure-2-1.jpg> <./images/figure-2-2.jpg>]
+<images/figure-2-4.jpg, id=34, 385.44pt x 385.44pt>
+File: images/figure-2-4.jpg Graphic file (type jpg)
+<use images/figure-2-4.jpg>
+Package pdftex.def Info: images/figure-2-4.jpg  used on input line 44.
+(pdftex.def)             Requested size: 199.16928pt x 199.16547pt.
+ [9 <./images/figure-2-3.jpg>]
+<images/figure-2-5.jpg, id=38, 1053.9375pt x 1053.9375pt>
+File: images/figure-2-5.jpg Graphic file (type jpg)
+<use images/figure-2-5.jpg>
+Package pdftex.def Info: images/figure-2-5.jpg  used on input line 53.
+(pdftex.def)             Requested size: 199.16928pt x 199.15665pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 59--60
+
+ []
+
+[10 <./images/figure-2-4.jpg>]
+Overfull \hbox (11.51527pt too wide) in paragraph at lines 86--88
+\OT1/cmr/m/n/12 Note: 7794 sam-ples be-cause the data is dig-i-tized and there 
+is a no-intensification
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [11 <./images/figure-2-5.jpg>]
+<images/figure-2-6.jpg, id=45, 470.50781pt x 176.91093pt>
+File: images/figure-2-6.jpg Graphic file (type jpg)
+<use images/figure-2-6.jpg>
+Package pdftex.def Info: images/figure-2-6.jpg  used on input line 93.
+(pdftex.def)             Requested size: 199.16928pt x 74.88785pt.
+) [12 <./images/figure-2-6.jpg>]
+Chapter 3.
+(chapters/approach-and-results.tex [13
+
+]
+<images/CAR-filter.jpg, id=53, 145.29282pt x 42.1575pt>
+File: images/CAR-filter.jpg Graphic file (type jpg)
+<use images/CAR-filter.jpg>
+Package pdftex.def Info: images/CAR-filter.jpg  used on input line 14.
+(pdftex.def)             Requested size: 199.16928pt x 57.79399pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 11--19
+
+ []
+
+<images/z-score.jpg, id=54, 112.16907pt x 21.83156pt>
+File: images/z-score.jpg Graphic file (type jpg)
+<use images/z-score.jpg>
+Package pdftex.def Info: images/z-score.jpg  used on input line 25.
+(pdftex.def)             Requested size: 199.16928pt x 38.76875pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 22--31
+
+ []
+
+
+Underfull \vbox (badness 1072) has occurred while \output is active []
+
+ [14 <./images/CAR-filter.jpg> <./images/z-score.jpg>]
+<images/A-B-P300-plot.jpg, id=58, 384.43625pt x 279.0425pt>
+File: images/A-B-P300-plot.jpg Graphic file (type jpg)
+<use images/A-B-P300-plot.jpg>
+Package pdftex.def Info: images/A-B-P300-plot.jpg  used on input line 44.
+(pdftex.def)             Requested size: 199.16928pt x 144.5707pt.
+<images/binary-classification-line-equation.jpg, id=59, 82.80937pt x 22.58438pt
+>
+File: images/binary-classification-line-equation.jpg Graphic file (type jpg)
+<use images/binary-classification-line-equation.jpg>
+Package pdftex.def Info: images/binary-classification-line-equation.jpg  used o
+n input line 58.
+(pdftex.def)             Requested size: 199.16928pt x 54.32658pt.
+<images/weight-calculation-lda.jpg, id=60, 123.46124pt x 30.86531pt>
+File: images/weight-calculation-lda.jpg Graphic file (type jpg)
+<use images/weight-calculation-lda.jpg>
+Package pdftex.def Info: images/weight-calculation-lda.jpg  used on input line 
+64.
+(pdftex.def)             Requested size: 199.16928pt x 49.79521pt.
+<images/score-calculation-lda.jpg, id=61, 91.84312pt x 24.84282pt>
+File: images/score-calculation-lda.jpg Graphic file (type jpg)
+<use images/score-calculation-lda.jpg>
+Package pdftex.def Info: images/score-calculation-lda.jpg  used on input line 7
+0.
+(pdftex.def)             Requested size: 199.16928pt x 53.88217pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 49--74
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 49--74
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 49--74
+
+ []
+
+[15 <./images/A-B-P300-plot.jpg>]
+<images/test-results.jpg, id=65, 446.41782pt x 152.82094pt>
+File: images/test-results.jpg Graphic file (type jpg)
+<use images/test-results.jpg>
+Package pdftex.def Info: images/test-results.jpg  used on input line 75.
+(pdftex.def)             Requested size: 199.16928pt x 68.18114pt.
+) [16 <./images/binary-classification-line-equation.jpg> <./images/weight-calcu
+lation-lda.jpg> <./images/test-results.jpg> <./images/score-calculation-lda.jpg
+>]
+Chapter 4.
+(chapters/updated-timeline.tex
+<images/updated-timeline.jpg, id=69, 380.17032pt x 375.65344pt>
+File: images/updated-timeline.jpg Graphic file (type jpg)
+<use images/updated-timeline.jpg>
+Package pdftex.def Info: images/updated-timeline.jpg  used on input line 1.
+(pdftex.def)             Requested size: 380.16939pt x 375.65251pt.
+) [17
+
+ <./images/updated-timeline.jpg>] [18
+
+]
+(chapters/references.tex)
+Overfull \hbox (37.27849pt too wide) in paragraph at lines 1--33
+\OT1/cmr/m/n/12 [1] Bern-hard Graimann, Bren-dan Al-li-son, and Gert Pfurtschel
+ler. Brain{Computer
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1--33
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1--33
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1--33
+
+ []
+
+
+Overfull \hbox (15.34814pt too wide) in paragraph at lines 1--33
+\OT1/cmr/m/n/12 [4] Amr S. El-sawy, Seif El-dawlatly, Mo-hamed Taher, Gamal M. 
+Aly. MindEdit:
+ []
+
+[19] (main.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 1568 strings out of 492895
+ 24690 string characters out of 3124202
+ 86237 words of memory out of 3000000
+ 5458 multiletter control sequences out of 15000+200000
+ 9766 words of font info for 34 fonts, out of 3000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 41i,6n,25p,1575b,223s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Users/OWSA/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/
+cm/cmbx12.pfb><C:/Users/OWSA/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/publ
+ic/amsfonts/cm/cmr12.pfb><C:/Users/OWSA/AppData/Local/Programs/MiKTeX 2.9/fonts
+/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/OWSA/AppData/Local/Programs/MiKTe
+X 2.9/fonts/type1/public/amsfonts/cm/cmsl12.pfb>
+Output written on main.pdf (19 pages, 683975 bytes).
+PDF statistics:
+ 94 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 71 words of extra memory for PDF output out of 10000 (max. 10000000)
+
