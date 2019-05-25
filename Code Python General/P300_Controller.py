@@ -73,7 +73,6 @@ class P300_Controller(object):
             
             # Plot
             if(plot):
-                matplotlib.pyplot.figure(index)
                 P300_Preprocessor(
                         signal.reshape(1, -1, self.channels),
                         stimulus_code.reshape(1, -1),

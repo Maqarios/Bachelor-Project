@@ -26,15 +26,20 @@ signal_test = loader.signal[i:]
 stimulus_code_test = loader.stimulus_code[i:]
 target_char_test = loader.loaded_characters[i:]
 
+CAR = 1
+MA = 13
+ZS = 1
+D = 6
+
 preprocessor_train = P300_Preprocessor(
         signal_train,
         stimulus_code_train,
         target_char_train,
         CHARACTER_MATRIX,
-        common_average_reference=1,
-        moving_average=3,
-        z_score=1,
-        decimation=2,
+        common_average_reference=CAR,
+        moving_average=MA,
+        z_score=ZS,
+        decimation=D,
         extracted_channels=numpy.arange(14),
         digitization_samples=128,
         start_window=0,
@@ -46,17 +51,18 @@ preprocessor_test = P300_Preprocessor(
         stimulus_code_test,
         target_char_test,
         CHARACTER_MATRIX,
-        common_average_reference=1,
-        moving_average=3,
-        z_score=1,
-        decimation=2,
+        common_average_reference=CAR,
+        moving_average=MA,
+        z_score=ZS,
+        decimation=D,
         extracted_channels=numpy.arange(14),
         digitization_samples=128,
         start_window=0,
         end_window=128
     )
 
-preprocessor_train.plot(common_average_reference=1)
+preprocessor_train.plot()
+preprocessor_test.plot()
 
 X, y = preprocessor_train.calculate_reshape()
 model = P300_Model(LinearDiscriminantAnalysis(solver='lsqr', shrinkage='auto'))

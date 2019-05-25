@@ -189,7 +189,8 @@ class P300_Preprocessor(object):
             digitization_samples = 0,
             start_window = 0,
             end_window = 0,
-            plotted_channels = numpy.array([0])
+            plotted_channels = numpy.array([0]),
+            title = ''
         ):
         
         preprocessed_signal = self.preprocessed_signal
@@ -223,9 +224,18 @@ class P300_Preprocessor(object):
         average_signal_success = sum_signal_success / (self.preprocessed_signal.shape[0] * 2)
         average_signal_fail = sum_signal_fail / (self.preprocessed_signal.shape[0] * (self.intensifications - 2))
         
-        matplotlib.pyplot.plot(average_signal_success[:, plotted_channels])
-        matplotlib.pyplot.plot(average_signal_fail[:, plotted_channels])
+        X = numpy.linspace(
+                (self.start_window / self.digitization_samples) * 1000,
+                (self.end_window / self.digitization_samples) * 1000,
+                average_signal_success[:, plotted_channels].shape[0]
+            )
+        matplotlib.pyplot.plot(X, average_signal_success[:, plotted_channels])
+        matplotlib.pyplot.plot(X, average_signal_fail[:, plotted_channels])
         matplotlib.pyplot.legend(['P300', 'Non-P300'])
+        matplotlib.pyplot.title(title)
+        matplotlib.pyplot.xlabel('Time (ms)')
+        matplotlib.pyplot.ylabel('Signal (arbitary units)')
+        matplotlib.pyplot.show()
         
         self.preprocessed_signal = preprocessed_signal
     

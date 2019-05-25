@@ -1,0 +1,75 @@
+\documentclass[12pt, a4paper]{book}
+
+\usepackage[headings]{fullpage}
+\usepackage{setspace}
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{subfig}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{appendix}
+\usepackage[pdfborder={0 0 0}, colorlinks=true, linkcolor=black, citecolor=blue]{hyperref}
+\usepackage[printonlyused]{acronym}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{ifpdf}
+\usepackage[utf8]{inputenc}
+
+
+\graphicspath{{images}}
+
+\newcommand{\keywords}{Brain Computer Interface, BCI, Machine Learning, ML, P-300, P-300 Speller, On-Screen Keyboard, Keyboard}
+\newcommand{\submissionDay}{26}
+\newcommand{\submissionMonth}{May}
+\newcommand{\submissionYear}{2019}
+\newcommand{\submissionDate}{\submissionDay~\submissionMonth,~\submissionYear}
+\newcommand{\typeOfThesis}{Bachelor Thesis - Expository}
+\newcommand{\titleOfThesisOne}{A Brain-controlled On-screen Assistive Keyboard}
+\newcommand{\authorOfThesis}{Maqarios Wagdy Tawadros Saleh Mohareb}
+\newcommand{\supervisor}{Assoc. Prof. Seif Eldawlatly}
+
+\newcommand{\figureWidth}{100mm}
+\newcommand{\subFigureWidth}{70mm}
+
+\ifpdf
+\pdfinfo {
+	/Author (\authorOfThesis)
+	/Title (\titleOfThesisOne)
+	/Subject (\typeOfThesis)
+	/Keywords (\keywords)
+}
+\fi
+
+
+
+
+\begin{document}
+
+
+\pagestyle{plain}
+
+\input{chapters/title_page.tex}
+\input{chapters/acknowledgments.tex}
+\input{chapters/abstract.tex}
+
+\tableofcontents
+\clearpage 
+\pagestyle{headings}
+\setlength\parskip{.5\baselineskip plus .2\baselineskip
+	minus .4\baselineskip}
+
+\input{chapters/introduction}
+\input{chapters/background}
+\input{chapters/approach}
+\input{chapters/results}
+\input{chapters/conclusion.tex}
+\input{chapters/appendix}
+
+\renewcommand\bibname{References}
+\bibliographystyle{ieeetr}
+\bibliography{bibtex/references.bib}
+\addcontentsline{toc}{chapter}{References}
+
+\end{document}
