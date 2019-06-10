@@ -6,6 +6,9 @@ import os
 from P300_GUI import P300_GUI
 from P300_Preprocessor import P300_Preprocessor
 from P300_SocketReceiver import P300_SocketReceiver
+from P300_FileLoader import P300_FileLoader
+from P300_Model import P300_Model
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
 CHARACTER_MATRIX = numpy.array([['A', 'B', 'C', 'D', 'E', 'F'],
                                 ['G', 'H', 'I', 'J', 'K', 'L'],
@@ -84,6 +87,67 @@ class P300_Controller(object):
                         end_window=128
                     ).plot()
     
+    def test_session(self):
+        
+        loader = P300_FileLoader(self.user_name)
+        
+        signal = loader.signal
+        stimulus_code = loader.stimulus_code
+        target_char = loader.loaded_characters
+        
+        preprocessor = P300_Preprocessor(
+                signal,
+                stimulus_code,
+                target_char,
+                CHARACTER_MATRIX,
+                common_average_reference=1,
+                moving_average=13,
+                z_score=1,
+                decimation=6,
+                extracted_channels=numpy.arange(14),
+                digitization_samples=128,
+                start_window=0,
+                end_window=102
+            )
+        
+        X, y = preprocessor.calculate_reshape()
+        model = P300_Model(LinearDiscriminantAnalysis(solver='lsqr', shrinkage='auto'))
+        model.fit(X, y)
+        
+        print('Done! Self Accuracy:', model.calculate_accuracy(preprocessor.preprocessed_signal, loader.loaded_characters, CHARACTER_MATRIX))
+        
+        for i in range(5):
+            
+            signal, stimulus_code = self.record()
+            
+            if signal.shape[0] == 0 or stimulus_code.shape[0] == 0:
+                print('Warning: Signal Is Not Received!')
+                break
+            
+            signal = signal.reshape(1, -1, self.channels)
+            stimulus_code = stimulus_code.reshape(1, -1)
+            
+            preprocessor = P300_Preprocessor(
+                    signal,
+                    stimulus_code,
+                    'A',
+                    CHARACTER_MATRIX,
+                    common_average_reference=1,
+                    moving_average=13,
+                    z_score=1,
+                    decimation=6,
+                    extracted_channels=numpy.arange(14),
+                    digitization_samples=128,
+                    start_window=0,
+                    end_window=102
+                )
+            
+            preprocessor.preprocessed_signal = preprocessor.preprocessed_signal.reshape(12, -1)
+            
+            predicted_char = model.predict_character(preprocessor.preprocessed_signal, CHARACTER_MATRIX)
+            print('Predicted:', predicted_char)
+        
+    
     def record(self):
         
         # Repetitions Per Epoch
@@ -114,9 +178,12 @@ class P300_Controller(object):
 
 
 user_name = input('Enter User Name: ')
-
 cntrlr = P300_Controller(user_name, CHARACTER_MATRIX, repetitions=15)
-cntrlr.train_session(plot=True)
+#cntrlr.train_session(plot=True)
+cntrlr.test_session()
 
-cntrlr.gui.close()
-cntrlr.socket.disconnect()
+try:
+    cntrlr.gui.close()
+    cntrlr.socket.disconnect()
+except:
+    1

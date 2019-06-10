@@ -15,7 +15,7 @@ class P300_Model(object):
     def predict_character(self, signal, matrix):
         
         predicted_classes = self.model.decision_function(signal)
-
+        
         column = numpy.where(predicted_classes[:6] == numpy.amax(predicted_classes[:6]))[0][0]
         row = numpy.where(predicted_classes[6:] == numpy.amax(predicted_classes[6:]))[0][0]
         
