@@ -1,0 +1,30 @@
+\contentsline {chapter}{\numberline {1}Introduction}{5}% 
+\contentsline {subsubsection}{Motivation}{5}% 
+\contentsline {subsubsection}{Objective}{5}% 
+\contentsline {subsubsection}{Brief Description}{5}% 
+\contentsline {chapter}{\numberline {2}Background}{7}% 
+\contentsline {section}{\numberline {2.1}Introductory to BCIs}{7}% 
+\contentsline {subsection}{\numberline {2.1.1}Processes of Operation}{7}% 
+\contentsline {subsubsection}{Measuring Brain Activity}{7}% 
+\contentsline {subsubsection}{Process and Control}{9}% 
+\contentsline {subsection}{\numberline {2.1.2}Brain Patterns}{9}% 
+\contentsline {subsubsection}{Selective Attention}{9}% 
+\contentsline {section}{\numberline {2.2}Online Dataset}{9}% 
+\contentsline {subsection}{\numberline {2.2.1}Paradigm}{9}% 
+\contentsline {subsection}{\numberline {2.2.2}Collection of Dataset}{10}% 
+\contentsline {subsection}{\numberline {2.2.3}Explanation of The Dataset}{10}% 
+\contentsline {subsection}{\numberline {2.2.4}Analysis}{12}% 
+\contentsline {chapter}{\numberline {3}Approach and Results}{13}% 
+\contentsline {section}{\numberline {3.1}P-300 Prediction using Machine Learning}{13}% 
+\contentsline {subsection}{\numberline {3.1.1}Prepossessing}{13}% 
+\contentsline {subsubsection}{Averaging}{13}% 
+\contentsline {subsubsection}{Common Average Reference Filter}{14}% 
+\contentsline {subsubsection}{Moving Average Filter}{14}% 
+\contentsline {subsubsection}{Z-Score}{14}% 
+\contentsline {subsubsection}{Decimation of Samples}{15}% 
+\contentsline {subsubsection}{Channel Concatenation}{15}% 
+\contentsline {subsection}{\numberline {3.1.2}Model}{15}% 
+\contentsline {subsubsection}{Plot of Wave Forms}{15}% 
+\contentsline {subsubsection}{Least Discriminant Analysis}{15}% 
+\contentsline {subsubsection}{Results}{16}% 
+\contentsline {chapter}{\numberline {4}Updated Timeline}{17}% 

@@ -1,0 +1,20 @@
+\chapter{Conclusion and Future Work}
+\label{chap:conclusion}
+% ================================================================
+\section{Conclusion}
+In conclusion, using \ac{p300} based \ac{bci} a \ac{p300} speller was programmed. Using \ac{ml} and specifically \ac{lda} classifier, a character recognition rate of around 80\% in the competition's dataset and 70\% in the recorded dataset was achieved. The number of channels didn't have much effect, at least it depends on the subject, their brain waves and their state of mind \ref{tab:subject-A-B-char-reco}.\par
+% ----------------------------------------------------------------
+However, one could see that applying filters did have great impact on the character recognition rate. As shown in Table \ref{tab:subject-C-D-char-reco}, an increase of around 20\% was achieved on subject C, however, on subject D there was no effect at all, mainly due to signal interference, lack of attention and lack of experience with the platform. One can see that effect from the \ac{p300} plot in Figure \ref{fig:subject-C-p300} versus Figure \ref{fig:subject-D-p300}.\par
+% ----------------------------------------------------------------
+
+\section{Future Work}
+There is a lot can be done to increase the efficiency of this project. Such as trying different combinations of filters and classifiers for each subject since \ac{ml} models are like maths problems where one can achieve the desired answer with more than one way.\par
+% ----------------------------------------------------------------
+An auto-complete functionality can be added as well in order to save time. one character takes around 30 seconds to be determined. If we consider the average of one word to be 5 characters, then, this will take around 150 seconds in total which is a lot for one word. However, if auto-complete was added it can take half the time to determine what the user wants thus saving a lot of time.\par
+% ----------------------------------------------------------------
+Sentence's prediction and adaptability can be added as well. As it can check what the user tends to type so often then add it as a shortcut instead of typing the whole sentence from the beginning and predicting next word within the current sentence (same behavior as mobile keyboards).\par
+% ----------------------------------------------------------------
+A mobile phone application can be programmed as well since \ac{p300} speller does not require much computation. However, it will be hard to do it on mobile phones with small screens or older version platforms since it might not be compatible with the headset.
+
+\clearpage
+% ================================================================
