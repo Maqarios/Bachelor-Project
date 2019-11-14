@@ -1,19 +1,30 @@
-import numpy
 import os.path
+import random
+import pickle
+import numpy
 
 class P300_FileLoader(object):
     
-    def __init__(self, user_name):
+    def __init__(self, user):
+        self.path = 'user_data/' + user + '/'
         
-        self.user_name = user_name
-        
-        self.load_files()
+        if not os.path.exists(self.path):
+            os.mkdir(self.path)
     
-    def reinit(self, user_name):
+    def save_file(self, character, signal, stimulus_code):
+        file_name = str(random.randint(1000, 9999)) + '.pkl'
+        while os.path.exists(self.path + file_name):
+            file_name = random.randint(1000, 9999)
         
-        self.user_name = user_name
+        f = open(self.path + file_name, 'wb')
         
-        self.load_files()
+        data = {}
+        data['character'] = character
+        data['signal'] = signal
+        data['stimulus_code'] = stimulus_code
+        pickle.dump(data, f)
+        
+        f.close()
     
     def load_files(self):
         
@@ -21,25 +32,17 @@ class P300_FileLoader(object):
         self.stimulus_code = numpy.empty((0))
         self.loaded_characters = ''
         
-        characters_to_be_loaded = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789_'
-        
-        for trial in range(100):
+        files = os.listdir(self.path)
+        for file in files:
+            f = open(self.path + file, 'rb')
+            data = pickle.load(f)
             
-            path = 'user_data/' + self.user_name + '/' + str(trial)
+            signal_epoch = data['signal']
+            stimulus_code_epoch = data['stimulus_code']
+            self.loaded_characters += data['character']
+            self.append_epoch(signal_epoch, stimulus_code_epoch)
             
-            if os.path.exists(path):
-                
-                for char in characters_to_be_loaded:
-                    
-                    try:
-                        signal_epoch = numpy.loadtxt(path + '/signal_' + char + '.txt')
-                        stimulus_code_epoch = numpy.loadtxt(path + '/stimulus_code_' + char + '.txt')
-                    except:
-                        print('Character:', char, 'Not Found!')
-                        continue
-                
-                    self.loaded_characters += char
-                    self.append_epoch(signal_epoch, stimulus_code_epoch)
+            f.close()
     
     def append_epoch(
             self,

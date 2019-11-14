@@ -254,17 +254,6 @@ class P300_Preprocessor(object):
                 else:
                     self.preprocessed_classes[epoch, row_column] = -1
     
-    # Reshaper
-    def calculate_reshape(self):
-        
-        return numpy.reshape(
-                self.preprocessed_signal,
-                (self.preprocessed_signal.shape[0] * self.preprocessed_signal.shape[1], -1)
-            ), numpy.reshape(
-                    self.preprocessed_classes,
-                    (-1)
-                )
-    
     # Search Function
     def search(self, char):
         

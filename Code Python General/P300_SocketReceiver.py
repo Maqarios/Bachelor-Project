@@ -4,12 +4,11 @@ import _thread
 
 class P300_SocketReceiver(object):
     
-    def __init__(self, controller, HOST = '127.0.0.1', PORT = 54123, BUFFER_SIZE = 1024):
+    def __init__(self, controller, BUFFER_SIZE = 1024, MAX_LEN = 10000):
         
         self.controller = controller
-        self.HOST = HOST
-        self.PORT = PORT
         self.BUFFER_SIZE = BUFFER_SIZE
+        self.MAX_LEN = MAX_LEN
         
         self.signal = numpy.empty((0, self.controller.channels))
         self.stimulus_code = numpy.empty((0))
@@ -18,11 +17,8 @@ class P300_SocketReceiver(object):
         # Socket Establishment
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         
-        # Connect
-        self.connect()
-        
-    def connect(self):
-        self.socket.connect((self.HOST, self.PORT))
+    def connect(self, host, port):
+        self.socket.connect((host, port))
         self.socket.send(b'\r\n')
         
         # Start Receiving In Parallel Thread
@@ -57,3 +53,6 @@ class P300_SocketReceiver(object):
             if data.shape[0] == self.controller.channels and self.is_record:
                 self.signal = numpy.append(self.signal, data.reshape(1, self.controller.channels), axis = 0)
                 self.stimulus_code = numpy.append(self.stimulus_code, self.controller.gui.stimulus_code + 1)
+                
+                if self.signal.shape[0] == self.MAX_LEN:
+                    self.end_record()

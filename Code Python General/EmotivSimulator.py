@@ -19,7 +19,7 @@ class EmotivMessageSimulator(object):
         self.client_address = None
         
         # Message Info
-        if not signal:  self.signal = '0,0,0,0,0,0,0,0,0,0,0,0,0,0'
+        if not signal:  self.signal = '0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0'
         else:           self.signal = signal
         self.bit_size = bit_size
         self.message_counter = 0

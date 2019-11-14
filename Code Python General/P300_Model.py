@@ -6,7 +6,10 @@ class P300_Model(object):
         
         self.model = model
     
-    def fit(self, X, y):
+    def fit(self, signal, classes):
+        X = numpy.reshape(signal,(signal.shape[0] * signal.shape[1], -1))
+        y = numpy.reshape(classes, (-1))
+        
         self.model.fit(X, y)
     
     def predict(self):
@@ -30,6 +33,6 @@ class P300_Model(object):
             if target_char[epoch] == self.predict_character(signal[epoch], matrix):
                 accuracy += 1
             
-        accuracy = (accuracy / len(target_char)) * 100
+        accuracy = (accuracy / len(target_char))
         
         return accuracy
